@@ -5,8 +5,10 @@
 # Saved GUI profiles (may contain passwords)
 7dtd_profiles.json
 
-# Saved horde wave configs
+# Saved horde wave configs + presets + favourites
 horde_waves.json
+horde_presets.json
+favourites.json
 
 # Python
 __pycache__/
