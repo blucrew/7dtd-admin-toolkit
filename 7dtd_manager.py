@@ -26,6 +26,135 @@ PROFILE_FILE     = os.path.join(_DIR, "7dtd_profiles.json")
 WAVE_CONFIG_FILE = os.path.join(_DIR, "horde_waves.json")
 PRESETS_FILE     = os.path.join(_DIR, "horde_presets.json")
 FAVOURITES_FILE  = os.path.join(_DIR, "favourites.json")
+THEME_FILE       = os.path.join(_DIR, "theme.json")
+
+# ─────────────────────────────────────────────────────────────
+#  THEMES
+# ─────────────────────────────────────────────────────────────
+THEMES = {
+    "Midnight": {
+        "bg0":"#0f1117","bg1":"#141820","bg2":"#0d1117","bg3":"#080b11","bg4":"#1e293b",
+        "border":"#1e293b","border2":"#334155",
+        "accent":"#1d4ed8","accent_h":"#2563eb","accent_p":"#1e40af",
+        "t0":"#f8fafc","t1":"#e2e8f0","t2":"#cbd5e1","t3":"#94a3b8","t4":"#64748b","t5":"#475569","t6":"#334155",
+        "success":"#166534","success_h":"#15803d","danger":"#7f1d1d","danger_h":"#991b1b",
+        "fav_bg":"#3b1f6e","fav_t":"#d8b4fe","fav_b":"#7c3aed","fav_h":"#7c3aed",
+        "lvl":"#7c3aed","terminal_t":"#94a3b8","prompt":"#00ff88","horde_prog":"#FFD700",
+        "wave_frame":"#141820","filter_focus":"#7c3aed",
+    },
+    "Crimson Crypt": {
+        "bg0":"#090000","bg1":"#120505","bg2":"#0c0202","bg3":"#040000","bg4":"#1e0b0b",
+        "border":"#2a0e0e","border2":"#4a1c1c",
+        "accent":"#8b0000","accent_h":"#b22222","accent_p":"#5c0000",
+        "t0":"#f0e0e0","t1":"#e8d0d0","t2":"#c4a0a0","t3":"#9a7070","t4":"#7a5050","t5":"#5a3535","t6":"#3d2020",
+        "success":"#5a0000","success_h":"#7a0000","danger":"#2a0000","danger_h":"#420000",
+        "fav_bg":"#2a0808","fav_t":"#cc8888","fav_b":"#8b0000","fav_h":"#8b0000",
+        "lvl":"#8b0000","terminal_t":"#aa7070","prompt":"#cc2222","horde_prog":"#cc2222",
+        "wave_frame":"#120505","filter_focus":"#8b0000",
+    },
+}
+
+def _make_stylesheet(t):
+    return f"""
+        QMainWindow, QWidget {{ background-color:{t['bg0']}; color:{t['t1']};
+            font-family:'Segoe UI','Consolas',monospace; font-size:14px; }}
+        #title {{ font-size:18px; font-weight:700; color:{t['t0']}; letter-spacing:0.5px; }}
+        #topbar, #quickbar, #inputbar {{ background-color:{t['bg1']}; border-bottom:1px solid {t['border']}; }}
+        #inputbar {{ border-top:1px solid {t['border']}; border-bottom:none; }}
+        #field_label {{ color:{t['t4']}; font-size:13px; }}
+        #field_input, QLineEdit {{ background-color:{t['bg4']}; color:{t['t1']}; border:1px solid {t['border2']};
+            border-radius:5px; padding:4px 8px; selection-background-color:{t['accent']}; }}
+        #field_input:focus, QLineEdit:focus {{ border-color:{t['accent']}; }}
+        #filter_input {{ background-color:{t['bg3']}; color:{t['t1']}; border:1px solid {t['border']};
+            border-radius:5px; padding:4px 8px; }}
+        #filter_input:focus {{ border-color:{t['filter_focus']}; }}
+        QComboBox {{ background-color:{t['bg4']}; color:{t['t1']}; border:1px solid {t['border2']};
+            border-radius:5px; padding:4px 8px; }}
+        QComboBox::drop-down {{ border:none; }}
+        QComboBox QAbstractItemView {{ background-color:{t['bg4']}; color:{t['t1']}; selection-background-color:{t['accent']}; }}
+        QSpinBox#spinbox {{ background-color:{t['bg4']}; color:{t['t1']}; border:1px solid {t['border2']};
+            border-radius:5px; padding:3px 4px; }}
+        QSpinBox#spinbox::up-button, QSpinBox#spinbox::down-button {{ width:18px; background:{t['border2']}; border:none; }}
+        QSpinBox#spinbox::up-button:hover, QSpinBox#spinbox::down-button:hover {{ background:{t['accent']}; }}
+        #btn_connect {{ background-color:{t['success']}; color:{t['t0']}; border:none; border-radius:6px; font-weight:700; }}
+        #btn_connect:hover {{ background-color:{t['success_h']}; }}
+        #btn_connect:disabled {{ background-color:{t['bg4']}; color:{t['t5']}; }}
+        #btn_disconnect {{ background-color:{t['danger']}; color:{t['t0']}; border:none; border-radius:6px; font-weight:700; }}
+        #btn_disconnect:hover {{ background-color:{t['danger_h']}; }}
+        #btn_disconnect:disabled {{ background-color:{t['bg4']}; color:{t['t5']}; }}
+        #btn_quick {{ background-color:{t['bg4']}; color:{t['t2']}; border:1px solid {t['accent']};
+            border-radius:5px; font-size:13px; font-weight:600; padding:4px 10px; }}
+        #btn_quick:hover {{ background-color:{t['accent']}; color:{t['t0']}; }}
+        #btn_fav {{ background-color:{t['fav_bg']}; color:{t['fav_t']}; border:1px solid {t['fav_b']};
+            border-radius:5px; font-size:13px; font-weight:600; padding:4px 10px; }}
+        #btn_fav:hover {{ background-color:{t['fav_h']}; color:{t['t0']}; }}
+        #btn_icon {{ background-color:{t['bg4']}; color:{t['t3']}; border:1px solid {t['border2']}; border-radius:5px; }}
+        #btn_icon:hover {{ background-color:{t['border2']}; }}
+        #btn_cmd {{ background-color:{t['bg4']}; color:{t['t2']}; border:1px solid {t['border2']};
+            border-radius:5px; font-size:13px; font-family:'Consolas',monospace; padding:6px; }}
+        #btn_cmd:hover {{ background-color:{t['accent']}; color:{t['t0']}; border-color:{t['accent']}; }}
+        #btn_send {{ background-color:{t['accent']}; color:{t['t0']}; border:none; border-radius:5px; font-weight:600; padding:4px 16px; }}
+        #btn_send:hover {{ background-color:{t['accent_h']}; }}
+        #btn_initiate {{ background-color:{t['success']}; color:{t['t0']}; border:none; border-radius:6px; font-weight:700; }}
+        #btn_initiate:hover {{ background-color:{t['success_h']}; }}
+        #btn_back {{ background-color:{t['bg4']}; color:{t['t3']}; border:1px solid {t['border2']}; border-radius:6px; }}
+        #btn_back:hover {{ background-color:{t['border2']}; color:{t['t1']}; }}
+        #btn_lvl {{ background-color:{t['bg4']}; color:{t['t3']}; border:1px solid {t['border2']};
+            border-radius:6px; font-size:13px; font-weight:600; padding:6px 12px; }}
+        #btn_lvl:hover {{ background-color:{t['lvl']}; color:{t['t0']}; border-color:{t['lvl']}; }}
+        #btn_lvl_selected {{ background-color:{t['lvl']}; color:{t['t0']}; border:1px solid {t['lvl']};
+            border-radius:6px; font-size:13px; font-weight:700; padding:6px 12px; }}
+        #btn_add {{ background-color:{t['bg4']}; color:{t['t4']}; border:1px solid {t['border2']};
+            border-radius:5px; font-size:12px; padding:3px 10px; }}
+        #btn_add:hover {{ background-color:{t['success']}; color:{t['t0']}; border-color:{t['success']}; }}
+        #btn_del {{ background-color:transparent; color:{t['danger_h']}; border:none; border-radius:4px; }}
+        #btn_del:hover {{ background-color:{t['danger']}; color:{t['t0']}; }}
+        #panel {{ background-color:{t['bg0']}; border:1px solid {t['border']}; border-radius:8px; }}
+        #panel_header {{ background-color:{t['bg1']}; color:{t['t5']}; font-size:14px; font-weight:600;
+            letter-spacing:1px; padding:6px 12px; border-bottom:1px solid {t['border']}; border-radius:8px 8px 0 0; }}
+        #terminal {{ background-color:{t['bg3']}; color:{t['terminal_t']}; border:none; border-radius:0 0 8px 8px;
+            font-family:'Consolas','Courier New',monospace; font-size:13px; padding:8px; }}
+        #player_table {{ background-color:{t['bg2']}; color:{t['t1']}; border:none; font-size:13px;
+            gridline-color:{t['border']}; selection-background-color:{t['accent']}; }}
+        QHeaderView::section {{ background-color:{t['bg1']}; color:{t['t4']}; border:none;
+            border-bottom:1px solid {t['border']}; padding:4px 8px; font-size:12px; font-weight:600; }}
+        #placeholder_label {{ color:{t['t6']}; font-size:13px; }}
+        #prompt {{ color:{t['prompt']}; font-size:16px; font-family:'Consolas',monospace; font-weight:700; }}
+        #cmd_input {{ background-color:{t['bg3']}; color:{t['prompt']}; border:1px solid {t['border']};
+            border-radius:5px; padding:5px 10px; font-family:'Consolas',monospace; font-size:14px; }}
+        #cmd_input:focus {{ border-color:{t['prompt']}; }}
+        QTabWidget#cmd_tabs::pane {{ border:none; background-color:{t['bg0']}; }}
+        QTabWidget#cmd_tabs QTabBar::tab {{ background:{t['bg1']}; color:{t['t4']}; padding:7px 14px;
+            margin-right:2px; border-radius:5px 5px 0 0; font-size:13px; border:1px solid {t['border']}; border-bottom:none; }}
+        QTabWidget#cmd_tabs QTabBar::tab:selected {{ background:{t['accent']}; color:{t['t0']}; font-weight:700; }}
+        QTabWidget#cmd_tabs QTabBar::tab:hover:!selected {{ background:{t['bg4']}; color:{t['t2']}; }}
+        #cmd_scroll {{ background-color:{t['bg0']}; border:none; }}
+        QScrollBar:vertical {{ background:{t['bg0']}; width:8px; border-radius:4px; }}
+        QScrollBar::handle:vertical {{ background:{t['border2']}; border-radius:4px; min-height:20px; }}
+        QScrollBar::handle:vertical:hover {{ background:{t['t5']}; }}
+        QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical {{ height:0; }}
+        QScrollBar:horizontal {{ background:{t['bg0']}; height:8px; border-radius:4px; }}
+        QScrollBar::handle:horizontal {{ background:{t['border2']}; border-radius:4px; min-width:20px; }}
+        QScrollBar::handle:horizontal:hover {{ background:{t['t5']}; }}
+        QScrollBar::add-line:horizontal, QScrollBar::sub-line:horizontal {{ width:0; }}
+        QStatusBar {{ background-color:{t['bg3']}; color:{t['t5']}; font-size:14px; border-top:1px solid {t['border']}; }}
+        QMessageBox, QInputDialog {{ background-color:{t['bg0']}; color:{t['t1']}; }}
+        QMenu {{ background-color:{t['bg1']}; color:{t['t1']}; border:1px solid {t['border2']}; }}
+        QMenu::item:selected {{ background-color:{t['accent']}; color:{t['t0']}; }}
+        QToolTip {{ background-color:{t['bg4']}; color:{t['t2']}; border:1px solid {t['border2']}; font-size:13px; padding:4px 8px; }}
+        #desc_panel {{ background-color:{t['bg2']}; border-bottom:1px solid {t['border']}; }}
+        #desc_title {{ font-size:17px; font-weight:700; color:{t['t0']}; }}
+        #desc_body  {{ font-size:14px; color:{t['t3']}; line-height:1.5; }}
+        #divider    {{ color:{t['border']}; background-color:{t['border']}; max-height:1px; }}
+        #vdivider   {{ color:{t['border2']}; background-color:{t['border2']}; max-width:1px; }}
+        #tab_container {{ background-color:{t['bg0']}; }}
+        #syntax_lbl {{ font-family:'Consolas',monospace; font-size:13px; color:{t['t5']}; padding:2px 0; }}
+        #horde_progress {{ font-family:'Consolas',monospace; font-size:14px; color:{t['horde_prog']}; font-weight:700; padding:2px 0; }}
+        #cmd_param_input {{ background-color:{t['bg2']}; color:{t['t1']}; border:1px solid {t['accent']};
+            border-radius:5px; padding:5px 10px; font-family:'Consolas',monospace; font-size:14px; }}
+        #wave_frame {{ background-color:{t['wave_frame']}; border:1px solid {t['border']}; border-radius:6px; }}
+        #section_label {{ color:{t['t5']}; font-size:12px; font-weight:700; letter-spacing:1px; padding:4px 0; }}
+    """
 
 # ─────────────────────────────────────────────────────────────
 #  CONSTANTS
@@ -379,6 +508,10 @@ class MainWindow(QMainWindow):
         self.setWindowTitle("7 Days to Die — Admin Toolkit")
         self.resize(1250, 860); self.setMinimumSize(950, 600)
 
+        # Theme
+        saved_theme = _load_json(THEME_FILE, {}).get("theme", "Midnight")
+        self._current_theme = saved_theme if saved_theme in THEMES else "Midnight"
+
         # Core state
         self._profiles    = load_profiles()
         self._favourites  = load_favourites()
@@ -474,6 +607,14 @@ class MainWindow(QMainWindow):
         self._btn_disconnect.setMinimumHeight(36); self._btn_disconnect.setMinimumWidth(120)
         self._btn_disconnect.setEnabled(False); self._btn_disconnect.clicked.connect(self._do_disconnect_manual)
         lay.addWidget(self._btn_disconnect)
+
+        lay.addSpacing(12)
+        theme_lbl = QLabel("Theme"); theme_lbl.setObjectName("field_label"); lay.addWidget(theme_lbl)
+        self._theme_combo = QComboBox(); self._theme_combo.setFixedWidth(130); self._theme_combo.setObjectName("field_input")
+        self._theme_combo.addItems(list(THEMES.keys()))
+        self._theme_combo.setCurrentText(self._current_theme)
+        self._theme_combo.currentTextChanged.connect(self._on_theme_changed)
+        lay.addWidget(self._theme_combo)
 
         self._dot = QLabel("●"); self._dot.setObjectName("dot_off"); self._dot.setFixedWidth(20); lay.addWidget(self._dot)
         parent.addWidget(bar)
@@ -1272,7 +1413,16 @@ class MainWindow(QMainWindow):
     # ─────────────────────────────────────────────────────────
     #  STYLES
     # ─────────────────────────────────────────────────────────
+    def _on_theme_changed(self, name):
+        if name in THEMES:
+            self._current_theme = name
+            _save_json(THEME_FILE, {"theme": name})
+            self._apply_styles()
+
     def _apply_styles(self):
+        self.setStyleSheet(_make_stylesheet(THEMES[self._current_theme]))
+        return
+        # legacy fallback below (never reached)
         self.setStyleSheet("""
             QMainWindow, QWidget { background-color:#0f1117; color:#e2e8f0;
                 font-family:'Segoe UI','Consolas',monospace; font-size:14px; }
