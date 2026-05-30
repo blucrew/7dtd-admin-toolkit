@@ -1,5 +1,6 @@
-# Server credentials — never commit this
+# Server credentials — never commit these
 .env
+*.env
 
 # Saved GUI profiles (may contain passwords)
 7dtd_profiles.json
