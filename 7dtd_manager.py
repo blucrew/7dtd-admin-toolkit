@@ -33,33 +33,36 @@ THEME_FILE       = os.path.join(_DIR, "theme.json")
 # ─────────────────────────────────────────────────────────────
 THEMES = {
     "Midnight": {
-        "bg0":"#0f1117","bg1":"#141820","bg2":"#0d1117","bg3":"#080b11","bg4":"#1e293b",
-        "border":"#1e293b","border2":"#334155",
+        # OLED-optimised dark — deeper blacks, vibrant CTA green, contrast-safe text
+        "bg0":"#020617","bg1":"#0d1117","bg2":"#080e1a","bg3":"#010309","bg4":"#1e293b",
+        "border":"#1a2438","border2":"#334155",
         "accent":"#1d4ed8","accent_h":"#2563eb","accent_p":"#1e40af",
-        "t0":"#f8fafc","t1":"#e2e8f0","t2":"#cbd5e1","t3":"#94a3b8","t4":"#64748b","t5":"#475569","t6":"#334155",
-        "success":"#166534","success_h":"#15803d","danger":"#7f1d1d","danger_h":"#991b1b",
+        "t0":"#f8fafc","t1":"#e2e8f0","t2":"#cbd5e1","t3":"#94a3b8","t4":"#94a3b8","t5":"#64748b","t6":"#475569",
+        "success":"#16a34a","success_h":"#22c55e","danger":"#7f1d1d","danger_h":"#dc2626",
         "fav_bg":"#3b1f6e","fav_t":"#d8b4fe","fav_b":"#7c3aed","fav_h":"#7c3aed",
-        "lvl":"#7c3aed","terminal_t":"#94a3b8","prompt":"#00ff88","horde_prog":"#FFD700",
-        "wave_frame":"#141820","filter_focus":"#7c3aed",
+        "lvl":"#7c3aed","terminal_t":"#7dd3fc","prompt":"#00ff88","horde_prog":"#FFD700",
+        "wave_frame":"#0d1117","filter_focus":"#7c3aed",
     },
     "Pip-Boy": {
+        # Fallout amber + Vault-Tec blue — contrast-corrected dim text
         "bg0":"#0d0b07","bg1":"#181408","bg2":"#120f06","bg3":"#070604","bg4":"#241e0e",
         "border":"#2e2610","border2":"#4a3c1e",
         "accent":"#1a6b9e","accent_h":"#2586c0","accent_p":"#114e74",
-        "t0":"#f5d060","t1":"#e8c040","t2":"#c8a030","t3":"#a07820","t4":"#7a5c18","t5":"#564010","t6":"#38280a",
-        "success":"#1a5c3a","success_h":"#1e7248","danger":"#6b1a00","danger_h":"#8b2500",
+        "t0":"#f5d060","t1":"#e8c040","t2":"#c8a030","t3":"#a07820","t4":"#c8a030","t5":"#a07820","t6":"#7a5c18",
+        "success":"#16a34a","success_h":"#22c55e","danger":"#6b1a00","danger_h":"#8b2500",
         "fav_bg":"#1e1800","fav_t":"#f0c020","fav_b":"#b8860b","fav_h":"#c8960c",
-        "lvl":"#c8840c","terminal_t":"#c8a830","prompt":"#f0c020","horde_prog":"#f0c020",
+        "lvl":"#c8840c","terminal_t":"#e8c040","prompt":"#f0c020","horde_prog":"#f0c020",
         "wave_frame":"#181408","filter_focus":"#c8960c",
     },
     "Crimson Crypt": {
+        # Vampire blacks and blood reds — contrast-corrected dim text
         "bg0":"#090000","bg1":"#120505","bg2":"#0c0202","bg3":"#040000","bg4":"#1e0b0b",
         "border":"#2a0e0e","border2":"#4a1c1c",
         "accent":"#8b0000","accent_h":"#b22222","accent_p":"#5c0000",
-        "t0":"#f0e0e0","t1":"#e8d0d0","t2":"#c4a0a0","t3":"#9a7070","t4":"#7a5050","t5":"#5a3535","t6":"#3d2020",
-        "success":"#5a0000","success_h":"#7a0000","danger":"#2a0000","danger_h":"#420000",
+        "t0":"#f0e0e0","t1":"#e8d0d0","t2":"#c4a0a0","t3":"#9a7070","t4":"#c4a0a0","t5":"#9a7070","t6":"#7a5050",
+        "success":"#7a0000","success_h":"#9a0000","danger":"#2a0000","danger_h":"#420000",
         "fav_bg":"#2a0808","fav_t":"#cc8888","fav_b":"#8b0000","fav_h":"#8b0000",
-        "lvl":"#8b0000","terminal_t":"#aa7070","prompt":"#cc2222","horde_prog":"#cc2222",
+        "lvl":"#8b0000","terminal_t":"#cc9090","prompt":"#cc2222","horde_prog":"#cc2222",
         "wave_frame":"#120505","filter_focus":"#8b0000",
     },
 }
@@ -67,7 +70,7 @@ THEMES = {
 def _make_stylesheet(t):
     return f"""
         QMainWindow, QWidget {{ background-color:{t['bg0']}; color:{t['t1']};
-            font-family:'Segoe UI','Consolas',monospace; font-size:14px; }}
+            font-family:'Fira Sans','Segoe UI',sans-serif; font-size:14px; letter-spacing:0.2px; }}
         #title {{ font-size:18px; font-weight:700; color:{t['t0']}; letter-spacing:0.5px; }}
         #topbar, #quickbar, #inputbar {{ background-color:{t['bg1']}; border-bottom:1px solid {t['border']}; }}
         #inputbar {{ border-top:1px solid {t['border']}; border-bottom:none; }}
@@ -86,14 +89,14 @@ def _make_stylesheet(t):
             border-radius:5px; padding:3px 4px; }}
         QSpinBox#spinbox::up-button, QSpinBox#spinbox::down-button {{ width:18px; background:{t['border2']}; border:none; }}
         QSpinBox#spinbox::up-button:hover, QSpinBox#spinbox::down-button:hover {{ background:{t['accent']}; }}
-        #btn_connect {{ background-color:{t['success']}; color:{t['t0']}; border:none; border-radius:6px; font-weight:700; }}
+        #btn_connect {{ background-color:{t['success']}; color:{t['t0']}; border:none; border-radius:6px; font-weight:700; min-height:34px; }}
         #btn_connect:hover {{ background-color:{t['success_h']}; }}
         #btn_connect:disabled {{ background-color:{t['bg4']}; color:{t['t5']}; }}
-        #btn_disconnect {{ background-color:{t['danger']}; color:{t['t0']}; border:none; border-radius:6px; font-weight:700; }}
+        #btn_disconnect {{ background-color:{t['danger']}; color:{t['t0']}; border:none; border-radius:6px; font-weight:700; min-height:34px; }}
         #btn_disconnect:hover {{ background-color:{t['danger_h']}; }}
         #btn_disconnect:disabled {{ background-color:{t['bg4']}; color:{t['t5']}; }}
         #btn_quick {{ background-color:{t['bg4']}; color:{t['t2']}; border:1px solid {t['accent']};
-            border-radius:5px; font-size:13px; font-weight:600; padding:4px 10px; }}
+            border-radius:5px; font-size:13px; font-weight:600; padding:4px 10px; min-height:34px; }}
         #btn_quick:hover {{ background-color:{t['accent']}; color:{t['t0']}; }}
         #btn_fav {{ background-color:{t['fav_bg']}; color:{t['fav_t']}; border:1px solid {t['fav_b']};
             border-radius:5px; font-size:13px; font-weight:600; padding:4px 10px; }}
@@ -101,11 +104,11 @@ def _make_stylesheet(t):
         #btn_icon {{ background-color:{t['bg4']}; color:{t['t3']}; border:1px solid {t['border2']}; border-radius:5px; }}
         #btn_icon:hover {{ background-color:{t['border2']}; }}
         #btn_cmd {{ background-color:{t['bg4']}; color:{t['t2']}; border:1px solid {t['border2']};
-            border-radius:5px; font-size:13px; font-family:'Consolas',monospace; padding:6px; }}
+            border-radius:5px; font-size:13px; font-family:'Fira Code','Consolas',monospace; padding:6px; min-height:34px; }}
         #btn_cmd:hover {{ background-color:{t['accent']}; color:{t['t0']}; border-color:{t['accent']}; }}
         #btn_send {{ background-color:{t['accent']}; color:{t['t0']}; border:none; border-radius:5px; font-weight:600; padding:4px 16px; }}
         #btn_send:hover {{ background-color:{t['accent_h']}; }}
-        #btn_initiate {{ background-color:{t['success']}; color:{t['t0']}; border:none; border-radius:6px; font-weight:700; }}
+        #btn_initiate {{ background-color:{t['success']}; color:{t['t0']}; border:none; border-radius:6px; font-weight:700; min-height:34px; }}
         #btn_initiate:hover {{ background-color:{t['success_h']}; }}
         #btn_back {{ background-color:{t['bg4']}; color:{t['t3']}; border:1px solid {t['border2']}; border-radius:6px; }}
         #btn_back:hover {{ background-color:{t['border2']}; color:{t['t1']}; }}
@@ -123,7 +126,7 @@ def _make_stylesheet(t):
         #panel_header {{ background-color:{t['bg1']}; color:{t['t5']}; font-size:14px; font-weight:600;
             letter-spacing:1px; padding:6px 12px; border-bottom:1px solid {t['border']}; border-radius:8px 8px 0 0; }}
         #terminal {{ background-color:{t['bg3']}; color:{t['terminal_t']}; border:none; border-radius:0 0 8px 8px;
-            font-family:'Consolas','Courier New',monospace; font-size:13px; padding:8px; }}
+            font-family:'Fira Code','Consolas','Courier New',monospace; font-size:13px; padding:10px; line-height:1.6; }}
         #player_table {{ background-color:{t['bg2']}; color:{t['t1']}; border:none; font-size:13px;
             gridline-color:{t['border']}; selection-background-color:{t['accent']}; }}
         QHeaderView::section {{ background-color:{t['bg1']}; color:{t['t4']}; border:none;
