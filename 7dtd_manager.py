@@ -42,6 +42,16 @@ THEMES = {
         "lvl":"#7c3aed","terminal_t":"#94a3b8","prompt":"#00ff88","horde_prog":"#FFD700",
         "wave_frame":"#141820","filter_focus":"#7c3aed",
     },
+    "Pip-Boy": {
+        "bg0":"#0d0b07","bg1":"#181408","bg2":"#120f06","bg3":"#070604","bg4":"#241e0e",
+        "border":"#2e2610","border2":"#4a3c1e",
+        "accent":"#1a6b9e","accent_h":"#2586c0","accent_p":"#114e74",
+        "t0":"#f5d060","t1":"#e8c040","t2":"#c8a030","t3":"#a07820","t4":"#7a5c18","t5":"#564010","t6":"#38280a",
+        "success":"#1a5c3a","success_h":"#1e7248","danger":"#6b1a00","danger_h":"#8b2500",
+        "fav_bg":"#1e1800","fav_t":"#f0c020","fav_b":"#b8860b","fav_h":"#c8960c",
+        "lvl":"#c8840c","terminal_t":"#c8a830","prompt":"#f0c020","horde_prog":"#f0c020",
+        "wave_frame":"#181408","filter_focus":"#c8960c",
+    },
     "Crimson Crypt": {
         "bg0":"#090000","bg1":"#120505","bg2":"#0c0202","bg3":"#040000","bg4":"#1e0b0b",
         "border":"#2a0e0e","border2":"#4a1c1c",
