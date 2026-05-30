@@ -1,61 +1,59 @@
-# 7 Days to Die — Admin Toolkit
+# 7dtd admin toolkit
 
-A PySide6 telnet GUI manager for 7 Days to Die dedicated servers, with a built-in horde test tool.
+so this is the thing we use to run the server without having to type into a console like it's 1987 or whatever. PySide6 GUI that connects over telnet, auto-loads all the server commands, lets you run them without accidentally shutting the whole thing down because you typo'd.
 
-## Features
+also has a horde test tool built in. that part's kind of the whole point.
 
-- **Telnet GUI Manager** — connect to your server, browse and run all available commands, colour-coded server output terminal
-- **Profile save/load** — store multiple server connection profiles locally
-- **Quick bar** — one-click buttons for common commands (saveworld, shutdown, listplayers, etc.)
-- **🧟 Horde Test** — spawn configurable zombie waves from all 8 directions around your base, with escalating difficulty levels
+## what it does
 
-## Requirements
+- connects to your 7dtd server over telnet
+- pulls all available commands automatically and puts them in tabs
+- colour-coded terminal output so you can actually read what's happening
+- save multiple server profiles, swap between them
+- **horde test** — spawn zombie waves from all 8 directions at once, with dogs and birds and demolishers and all that, because sometimes you just want to see what happens you know
 
-- Python 3.10+
-- pip install -r requirements.txt
-
-## Setup
+## setup
 
 ```bash
-# Clone the repo
 git clone https://github.com/blucrew/7dtd-admin-toolkit.git
 cd 7dtd-admin-toolkit
-
-# Install dependencies
 pip install -r requirements.txt
-
-# Copy the env template and fill in your server details
 copy .env.example .env
-# Edit .env with your host, port, and telnet password
 ```
 
-## Usage
+edit `.env` with your server ip, port, and telnet password. that's it.
 
-### GUI Manager (main program)
+## running it
+
 ```bash
 python 7dtd_manager.py
 ```
 
-Connection details auto-fill from `.env` on startup, or enter them manually and save as a profile.
+connection fields auto-fill from `.env` on startup. save your servers as profiles so you can swap between them with one click.
 
-### Horde Test (CLI standalone)
+## horde test
+
+built into the GUI under the 🧟 horde tab. set your base coords, pick a level, launch it. uses the current connection so no separate setup needed.
+
+or run it standalone from the command line if you want:
+
 ```bash
-python horde_test.py 1   # Level 1 — regular zombies
-python horde_test.py 2   # Level 2 — + dogs & vultures
-python horde_test.py 3   # Level 3 — + ferals, screamers & demolishers
+python horde_test.py 1   # regular zombies
+python horde_test.py 2   # + dogs and vultures between waves
+python horde_test.py 3   # + ferals, screamers, demolishers. good luck.
 ```
 
-## Horde Test Levels
+### levels
 
-| Level | Waves | Breaks | Wave gap |
-|-------|-------|--------|----------|
-| 1 | 8 waves of regular zombies from all directions | None | 30s |
-| 2 | Feral soldiers + fat cops + lumberjacks | Dogs + vultures every 2 waves | 25s |
-| 3 | Feral zombies only | Dogs + vultures then screamers + demolishers every 2 waves | 20s |
+| | what's coming | break waves | gap |
+|---|---|---|---|
+| L1 | regular zombies from all 8 directions | none | 30s |
+| L2 | soldiers, fat cops, lumberjacks | dogs + vultures every 2 waves | 25s |
+| L3 | ferals only | dogs + vultures *then* screamers + demolishers | 20s |
 
-Set your base coordinates and spawn radius in the Horde tab of the GUI, or edit `bx, by, bz` in `horde_test.py` for CLI use.
+demolishers have a bomb pack that explodes when they die. don't let them reach the walls. you'll find out why.
 
-## .env format
+## .env
 
 ```
 TDTD_HOST=your.server.ip
@@ -63,6 +61,8 @@ TDTD_PORT=8081
 TDTD_PASS=yourpassword
 ```
 
-## License
+never gets committed. neither do your profiles. sorted.
 
-MIT
+## license
+
+MIT — do whatever with it
