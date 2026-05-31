@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>7DTD Admin Toolkit — Manual</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Fira+Sans:wght@300;400;500;600;700&display=swap');
+
+  :root {
+    --bg0: #020617;
+    --bg1: #0d1117;
+    --bg2: #080e1a;
+    --bg3: #010309;
+    --border: #1a2438;
+    --border2: #334155;
+    --accent: #1d4ed8;
+    --accent-h: #2563eb;
+    --success: #16a34a;
+    --success-h: #22c55e;
+    --danger: #dc2626;
+    --t0: #f8fafc;
+    --t1: #e2e8f0;
+    --t2: #cbd5e1;
+    --t3: #94a3b8;
+    --t4: #64748b;
+    --gold: #FFD700;
+    --purple: #7c3aed;
+    --cyan: #7dd3fc;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg0);
+    color: var(--t1);
+    font-family: 'Fira Sans', 'Segoe UI', sans-serif;
+    font-size: 15px;
+    line-height: 1.7;
+    letter-spacing: 0.2px;
+  }
+
+  .wrapper {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 48px 32px 80px;
+  }
+
+  /* ── Header ── */
+  .hero {
+    border-bottom: 1px solid var(--border2);
+    padding-bottom: 40px;
+    margin-bottom: 48px;
+  }
+
+  .hero h1 {
+    font-family: 'Fira Code', 'Consolas', monospace;
+    font-size: 32px;
+    font-weight: 600;
+    color: var(--t0);
+    letter-spacing: -0.5px;
+    margin-bottom: 12px;
+  }
+
+  .hero h1 span { color: var(--success-h); }
+
+  .hero .tagline {
+    color: var(--t3);
+    font-size: 14px;
+    font-family: 'Fira Code', monospace;
+  }
+
+  /* ── TOC ── */
+  .toc {
+    background: var(--bg1);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 24px 28px;
+    margin-bottom: 48px;
+  }
+
+  .toc h2 {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--t4);
+    margin-bottom: 16px;
+  }
+
+  .toc ol {
+    list-style: none;
+    counter-reset: toc;
+  }
+
+  .toc ol li {
+    counter-increment: toc;
+    padding: 4px 0;
+  }
+
+  .toc ol li::before {
+    content: "0" counter(toc) ". ";
+    font-family: 'Fira Code', monospace;
+    font-size: 12px;
+    color: var(--t4);
+    margin-right: 6px;
+  }
+
+  .toc a {
+    color: var(--t2);
+    text-decoration: none;
+    font-size: 14px;
+  }
+
+  .toc a:hover { color: var(--accent-h); }
+
+  /* ── Sections ── */
+  section {
+    margin-bottom: 56px;
+  }
+
+  section h2 {
+    font-family: 'Fira Code', monospace;
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--t0);
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  section h2 .num {
+    font-size: 11px;
+    color: var(--t4);
+    font-weight: 400;
+    letter-spacing: 1px;
+  }
+
+  section h3 {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--t0);
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin: 28px 0 12px;
+  }
+
+  p { color: var(--t2); margin-bottom: 14px; }
+
+  p strong { color: var(--t0); font-weight: 600; }
+
+  p em { color: var(--cyan); font-style: normal; }
+
+  /* ── Code / keys ── */
+  code {
+    font-family: 'Fira Code', 'Consolas', monospace;
+    font-size: 13px;
+    background: var(--bg2);
+    color: var(--cyan);
+    border: 1px solid var(--border2);
+    border-radius: 4px;
+    padding: 1px 6px;
+  }
+
+  pre {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 16px 20px;
+    margin: 16px 0;
+    overflow-x: auto;
+    font-family: 'Fira Code', 'Consolas', monospace;
+    font-size: 13px;
+    color: var(--cyan);
+    line-height: 1.8;
+  }
+
+  .key {
+    display: inline-block;
+    background: var(--bg2);
+    border: 1px solid var(--border2);
+    border-bottom-width: 2px;
+    border-radius: 4px;
+    padding: 1px 8px;
+    font-family: 'Fira Code', monospace;
+    font-size: 12px;
+    color: var(--t1);
+  }
+
+  /* ── Callouts ── */
+  .callout {
+    border-radius: 6px;
+    padding: 14px 18px;
+    margin: 20px 0;
+    font-size: 14px;
+    border-left: 3px solid;
+  }
+
+  .callout.tip    { background: #0a1929; border-color: var(--accent); color: var(--t2); }
+  .callout.warn   { background: #1a1200; border-color: var(--gold);   color: #d4b848; }
+  .callout.danger { background: #1a0000; border-color: var(--danger); color: #f87171; }
+  .callout.green  { background: #021a0e; border-color: var(--success-h); color: #86efac; }
+
+  .callout strong { color: inherit; font-weight: 700; }
+
+  /* ── Tables ── */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 14px;
+  }
+
+  th {
+    text-align: left;
+    padding: 8px 14px;
+    background: var(--bg1);
+    color: var(--t3);
+    font-weight: 600;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border-bottom: 1px solid var(--border2);
+  }
+
+  td {
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--border);
+    color: var(--t2);
+    vertical-align: top;
+  }
+
+  tr:last-child td { border-bottom: none; }
+
+  td code { font-size: 12px; }
+
+  /* ── Step list ── */
+  .steps {
+    list-style: none;
+    counter-reset: steps;
+    padding: 0;
+  }
+
+  .steps li {
+    counter-increment: steps;
+    display: flex;
+    gap: 16px;
+    margin-bottom: 16px;
+    align-items: flex-start;
+  }
+
+  .steps li::before {
+    content: counter(steps);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 28px;
+    height: 28px;
+    background: var(--accent);
+    color: white;
+    border-radius: 50%;
+    font-size: 12px;
+    font-weight: 700;
+    font-family: 'Fira Code', monospace;
+    margin-top: 2px;
+  }
+
+  .steps li p { margin: 0; }
+
+  /* ── Theme chips ── */
+  .themes {
+    display: flex;
+    gap: 12px;
+    margin: 16px 0;
+    flex-wrap: wrap;
+  }
+
+  .theme-chip {
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 600;
+    border: 1px solid;
+  }
+
+  .theme-midnight  { background:#0d1117; color:#94a3b8; border-color:#334155; }
+  .theme-crypt     { background:#120505; color:#cc8888; border-color:#4a1c1c; }
+  .theme-pipboy    { background:#181408; color:#e8c040; border-color:#4a3c1e; }
+
+  /* ── Level badges ── */
+  .levels { display:flex; gap:10px; margin:16px 0; flex-wrap:wrap; }
+  .lvl { padding:6px 14px; border-radius:6px; font-size:13px; font-weight:700; border:1px solid; }
+  .lvl1 { background:#1e293b; color:#94a3b8; border-color:#334155; }
+  .lvl2 { background:#1e3a5f; color:#7dd3fc; border-color:#1d4ed8; }
+  .lvl3 { background:#3b0000; color:#f87171; border-color:#7f1d1d; }
+
+  /* ── Footer ── */
+  footer {
+    margin-top: 80px;
+    padding-top: 32px;
+    border-top: 1px solid var(--border);
+    color: var(--t4);
+    font-size: 13px;
+    font-family: 'Fira Code', monospace;
+  }
+</style>
+</head>
+<body>
+<div class="wrapper">
+
+  <!-- Header -->
+  <div class="hero">
+    <h1>7DTD <span>Admin Toolkit</span></h1>
+    <div class="tagline">// written by RustyBlu &amp; Claude &nbsp;·&nbsp; github.com/blucrew/7dtd-admin-toolkit</div>
+  </div>
+
+  <!-- TOC -->
+  <div class="toc">
+    <h2>Contents</h2>
+    <ol>
+      <li><a href="#setup">Setup</a></li>
+      <li><a href="#connecting">Connecting to a server</a></li>
+      <li><a href="#commands">Running commands</a></li>
+      <li><a href="#players">Players panel</a></li>
+      <li><a href="#terminal">Terminal filter &amp; history</a></li>
+      <li><a href="#horde">Horde test</a></li>
+      <li><a href="#waves">Configuring waves</a></li>
+      <li><a href="#presets">Presets</a></li>
+      <li><a href="#themes">Themes</a></li>
+      <li><a href="#cli">CLI / standalone horde</a></li>
+    </ol>
+  </div>
+
+  <!-- 01 Setup -->
+  <section id="setup">
+    <h2><span class="num">01 —</span> Setup</h2>
+    <p>clone the repo, drop into the folder, install the deps. that's literally it.</p>
+    <pre>git clone https://github.com/blucrew/7dtd-admin-toolkit.git
+cd 7dtd-admin-toolkit
+pip install -r requirements.txt</pre>
+
+    <h3>Your .env file</h3>
+    <p>copy <code>.env.example</code> to <code>.env</code> and fill in your server details. this is what auto-fills the connection fields every time you open the tool so you don't have to type it every session.</p>
+    <pre>TDTD_HOST=your.server.ip
+TDTD_PORT=8081
+TDTD_PASS=yourpassword</pre>
+
+    <div class="callout warn">
+      <strong>never commit .env.</strong> it's already in .gitignore. just don't. your password ends up on github forever and that's a bad day.
+    </div>
+
+    <h3>Profiles</h3>
+    <p>if you're connecting to multiple servers — say your own and someone else's — save each one as a profile via the <strong>💾 button</strong> in the top bar. next time you open it, just pick from the dropdown. one click, you're in.</p>
+
+    <p>the <code>7dtd_profiles.json</code> that gets created locally is also gitignored. your passwords stay on your machine.</p>
+  </section>
+
+  <!-- 02 Connecting -->
+  <section id="connecting">
+    <h2><span class="num">02 —</span> Connecting to a server</h2>
+
+    <ol class="steps">
+      <li><p>run <code>python 7dtd_manager.py</code> — the .env pre-fills host, port, and password automatically</p></li>
+      <li><p>hit <strong>⚡ Connect</strong> — it authenticates, then pulls the full command list from the server's <code>help</code> output and builds the tabs</p></li>
+      <li><p>the dot in the top-right goes green when you're in. the status bar shows the server address.</p></li>
+    </ol>
+
+    <div class="callout green">
+      <strong>auto-reconnect is on by default.</strong> if the connection drops unexpectedly the tool counts down 10 seconds and tries again. you'll see it in the status bar. if you want to actually disconnect, use the ✖ button — that stops the auto-retry.
+    </div>
+
+    <p>keepalive runs every 60 seconds in the background to stop the server from timing you out. you won't notice it.</p>
+  </section>
+
+  <!-- 03 Commands -->
+  <section id="commands">
+    <h2><span class="num">03 —</span> Running commands</h2>
+
+    <p>the right panel auto-populates with every command your server supports, sorted into tabs — <strong>General, World, Time, Players, Admin</strong>, and an <strong>All</strong> tab if you need to browse everything.</p>
+
+    <h3>Clicking a command</h3>
+    <ol class="steps">
+      <li><p>click any command button — the top panel shows what it does and the syntax</p></li>
+      <li><p>if it needs parameters, a text field appears. fill it in.</p></li>
+      <li><p>hit <strong>⚡ Initiate</strong> — confirmation dialog pops up so you don't accidentally shut the server down or boot ziggy mid-fight</p></li>
+    </ol>
+
+    <h3>Quick bar</h3>
+    <p>the bar under the top row has one-click buttons for the commands you'll spam most: <code>saveworld</code>, <code>shutdown</code>, <code>listplayers</code>, <code>gettime</code>, <code>kick</code>, <code>ban</code>. no navigation, no tabs, just click.</p>
+
+    <h3>Favourites</h3>
+    <p><strong>right-click any command button</strong> and add it to favourites. it shows up in the quick bar next to the defaults with a ⭐ prefix. remove it the same way. saves to <code>favourites.json</code> locally so it persists across sessions.</p>
+
+    <h3>Raw input</h3>
+    <p>the input bar at the bottom takes any raw command. type it and hit enter. no confirmation dialog — it just sends. useful when you know exactly what you're doing and don't want the click flow.</p>
+
+    <div class="callout tip">
+      <strong>command history:</strong> hit <span class="key">↑</span> and <span class="key">↓</span> in the raw input bar to cycle through everything you've sent this session. same as a terminal.
+    </div>
+  </section>
+
+  <!-- 04 Players -->
+  <section id="players">
+    <h2><span class="num">04 —</span> Players panel</h2>
+
+    <p>below the terminal there's a live player list. it polls <code>listplayers</code> every 10 seconds and shows everyone online with their HP, coords, and death count.</p>
+
+    <h3>Selecting a player</h3>
+    <p><strong>click a row</strong> — that player is now selected. when you open a command that needs a player ID (kick, teleport, give, etc.) the ID pre-fills automatically. saves you copying it manually from the terminal.</p>
+
+    <h3>Right-click quick actions</h3>
+    <table>
+      <thead><tr><th>Action</th><th>What it does</th></tr></thead>
+      <tbody>
+        <tr><td>📍 TP to [name]</td><td>teleports you to that player</td></tr>
+        <tr><td>⬅ TP [name] to me</td><td>teleports them to you</td></tr>
+        <tr><td>💊 Heal [name]</td><td>applies a large health regen buff</td></tr>
+        <tr><td>🎁 Give item…</td><td>opens a dialog — type <code>item count quality</code> e.g. <code>ammoRocketHE 120 6</code></td></tr>
+        <tr><td>👢 Kick [name]</td><td>kick with confirmation</td></tr>
+      </tbody>
+    </table>
+
+    <div class="callout tip">
+      hit the <strong>↺ button</strong> next to the Players header to force a refresh instead of waiting for the next 10-second poll.
+    </div>
+  </section>
+
+  <!-- 05 Terminal -->
+  <section id="terminal">
+    <h2><span class="num">05 —</span> Terminal filter &amp; history</h2>
+
+    <h3>Filter</h3>
+    <p>the search bar above the terminal filters output in real time. type any keyword — player name, command name, whatever — and it shows only matching lines. the full log is still in memory, clear the field to get everything back.</p>
+
+    <p>useful when you're trying to track one player or watch for a specific error while the rest of the server chatter scrolls past.</p>
+
+    <h3>Colour coding</h3>
+    <table>
+      <thead><tr><th>Colour</th><th>Meaning</th></tr></thead>
+      <tbody>
+        <tr><td style="color:#f87171">Red</td><td>errors and exceptions</td></tr>
+        <tr><td style="color:#fbbf24">Yellow</td><td>warnings</td></tr>
+        <tr><td style="color:#7dd3fc">Cyan</td><td>chat messages</td></tr>
+        <tr><td style="color:#86efac">Green</td><td>player joins, leaves, spawns</td></tr>
+        <tr><td style="color:#94a3b8">Grey</td><td>everything else</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- 06 Horde Test -->
+  <section id="horde">
+    <h2><span class="num">06 —</span> Horde test</h2>
+
+    <p>the 🧟 Horde tab in the right panel. it spawns waves of zombies from all directions around your base on command. built it to test defences — works great for just causing chaos too.</p>
+
+    <h3>Launching a horde</h3>
+    <ol class="steps">
+      <li><p>set your <strong>base X, Y, Z</strong> coordinates — this is the centre point everything spawns around</p></li>
+      <li><p>set the <strong>radius</strong> — how far out from centre zombies spawn (default 35 blocks)</p></li>
+      <li><p>pick a <strong>level</strong></p></li>
+      <li><p>hit <strong>⚡ Launch Horde</strong> — confirm and it starts</p></li>
+    </ol>
+
+    <div class="levels">
+      <div class="lvl lvl1">L1 — Zombies</div>
+      <div class="lvl lvl2">L2 — + Dogs &amp; Birds</div>
+      <div class="lvl lvl3">L3 — + Ferals &amp; Demos</div>
+    </div>
+
+    <table>
+      <thead><tr><th>Level</th><th>Wave zombies</th><th>Break waves</th><th>Gap</th></tr></thead>
+      <tbody>
+        <tr><td>L1</td><td>regular zombies, 8 directions</td><td>none</td><td>30s</td></tr>
+        <tr><td>L2</td><td>soldiers, fat cops, lumberjacks</td><td>dogs + vultures every 2 waves</td><td>25s</td></tr>
+        <tr><td>L3</td><td>ferals only</td><td>dogs + vultures, <em>then</em> screamers + demolishers 4s later</td><td>20s</td></tr>
+      </tbody>
+    </table>
+
+    <div class="callout warn">
+      <strong>demolishers.</strong> that blinking light on their back is a bomb pack. it explodes when they die. shoot them from a distance. don't rocket them next to your wall. you'll find out why once. that's usually enough.
+    </div>
+
+    <h3>Progress + countdown</h3>
+    <p>while a horde is running you'll see a live progress bar (<em>Wave 3 / 8  ███░░░░░░░</em>) and a countdown to the next wave. the ⏹ Stop button kills it at any point — sends an abort message to the server chat so people know.</p>
+  </section>
+
+  <!-- 07 Configuring waves -->
+  <section id="waves">
+    <h2><span class="num">07 —</span> Configuring waves</h2>
+
+    <p>the <strong>⚙ Configure</strong> sub-tab inside the Horde tab is where you build your wave setup. everything here is fully editable and saves to <code>horde_waves.json</code> locally.</p>
+
+    <h3>Wave list</h3>
+    <p>each wave has a <strong>name</strong> (rename it whatever you want), a <strong>direction</strong> dropdown (N, NW, W, SW, S, SE, E, NE, CENTER, ABOVE), and one or more <strong>spawn rows</strong>.</p>
+    <p>each spawn row is an entity type and a count. the spinbox next to it is the up/down clicker for the number.</p>
+
+    <p>controls per wave:</p>
+    <ul style="padding-left:20px; color:var(--t2); margin-bottom:14px;">
+      <li style="margin-bottom:6px;"><strong>↑ / ↓</strong> — reorder waves</li>
+      <li style="margin-bottom:6px;"><strong>🗑</strong> — delete the whole wave</li>
+      <li style="margin-bottom:6px;"><strong>+ Add Spawn</strong> — add another entity type to this wave</li>
+      <li><strong>🗑 on a spawn row</strong> — remove just that spawn entry</li>
+    </ul>
+
+    <p><strong>+ Add Wave</strong> at the top creates a new empty wave you can name and configure from scratch.</p>
+
+    <h3>Break waves</h3>
+    <p>the <strong>Break Waves (L2+)</strong> section below the wave list is the same format — entity type, count, and now a direction per row. default is dogs spawning at N/S/E/W and vultures above centre. change the types and counts however you want.</p>
+
+    <p>the <strong>L3 Extra Break</strong> section fires 4 seconds after the dog/bird break. screamers, demolishers, and ferals by default.</p>
+
+    <div class="callout tip">
+      <strong>hit 💾 Save Config</strong> when you're happy with your setup. it persists between sessions. <strong>↺ Reset to Defaults</strong> puts the original 8-wave setup back if you've gone too far down a rabbit hole.
+    </div>
+  </section>
+
+  <!-- 08 Presets -->
+  <section id="presets">
+    <h2><span class="num">08 —</span> Presets</h2>
+
+    <p>you can save named wave configurations and swap between them from the <strong>🚀 Launch</strong> tab.</p>
+
+    <ol class="steps">
+      <li><p>build a wave setup in ⚙ Configure</p></li>
+      <li><p>go back to 🚀 Launch, hit <strong>Save As…</strong> in the presets row, give it a name</p></li>
+      <li><p>load it any time from the dropdown → <strong>Load</strong></p></li>
+      <li><p><strong>🗑</strong> next to the dropdown deletes the selected preset</p></li>
+    </ol>
+
+    <p>good for keeping a few ready: a quick weeknight test, a proper Friday night nightmare run, something you built specifically to grief ziggy.</p>
+  </section>
+
+  <!-- 09 Themes -->
+  <section id="themes">
+    <h2><span class="num">09 —</span> Themes</h2>
+
+    <p>theme dropdown is in the top bar between the Disconnect button and the connection dot. picks up immediately, saves to <code>theme.json</code> so it sticks.</p>
+
+    <div class="themes">
+      <div class="theme-chip theme-midnight">Midnight</div>
+      <div class="theme-chip theme-crypt">Crimson Crypt</div>
+      <div class="theme-chip theme-pipboy">Pip-Boy</div>
+    </div>
+
+    <table>
+      <thead><tr><th>Theme</th><th>Vibe</th></tr></thead>
+      <tbody>
+        <tr><td>Midnight</td><td>OLED black, Vault blue accents. the original. Ziggy's pick.</td></tr>
+        <tr><td>Crimson Crypt</td><td>near-black with blood reds and dark crimson. goth admin panel energy.</td></tr>
+        <tr><td>Pip-Boy</td><td>dark warm browns, amber/gold text, Vault-Tec blue accents. Fallout vibes.</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- 10 CLI -->
+  <section id="cli">
+    <h2><span class="num">10 —</span> CLI / standalone horde</h2>
+
+    <p><code>horde_test.py</code> runs the horde without the GUI. useful if you want to fire one off from a terminal while you're already in-game and don't want to tab out to the full tool.</p>
+
+    <pre>python horde_test.py 1   # level 1
+python horde_test.py 2   # level 2
+python horde_test.py 3   # level 3 — good luck</pre>
+
+    <p>it reads from the same <code>.env</code> as the GUI. base coords are set at the top of the script — update <code>bx, by, bz</code> to wherever your base is.</p>
+
+    <div class="callout danger">
+      <strong>this one doesn't ask for confirmation.</strong> run it and the first wave goes immediately. don't mistype the level.
+    </div>
+  </section>
+
+  <footer>
+    // 7dtd-admin-toolkit &nbsp;·&nbsp; blucrew &nbsp;·&nbsp; unpleasant dreams
+  </footer>
+
+</div>
+</body>
+</html>
